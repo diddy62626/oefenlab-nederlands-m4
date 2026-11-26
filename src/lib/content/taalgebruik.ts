@@ -18,7 +18,7 @@ export const taalgebruik: Module = {
       bullets: [
         "Ik-vorm: nooit een t erbij ('ik antwoord', 'ik praat').",
         "Jij-/hij-/zij-/het-vorm: krijg een t als de stam op d of t eindigt ('hij antwoordt', 'hij praat', 'hij fietst').",
-        "Vuistregel: luister naar de ik-vorm. Klinkt het in de ik-vorm al met t/d, dan komt er in de jij-/hij-vorm dt (\"ik antwoord\" -> \"hij antwoordt\").",
+        'Vuistregel: luister naar de ik-vorm. Klinkt het in de ik-vorm al met t/d, dan komt er in de jij-/hij-vorm dt ("ik antwoord" -> "hij antwoordt").',
         "Meervoud (wij/zij) en verleden tijd plural: gewoon stam + en ('wij antwoorden').",
         "word/wordt: 'ik word' (d), 'jij/hij wordt' (dt).",
       ],
