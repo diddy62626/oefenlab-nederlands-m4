@@ -234,7 +234,7 @@ export const discussie: Module = {
           prompt: "Iemand geeft een sterk argument dat je eigenlijk overtuigt. Wat doe je?",
           options: [
             "Alsof je niets hoorde, gewoon je oude punt herhalen",
-            "'Je hebt gelijk dat... Toch denk ik dat...' – erkenen en nuanceren",
+            "'Je hebt gelijk dat... Toch denk ik dat...' – erkennen en nuanceren",
             "Direct je stelling opgeven",
             "Lachen en het onderwerp wisselen",
           ],
@@ -248,7 +248,7 @@ export const discussie: Module = {
           prompt: "Iemand roept: 'Iedereen weet toch dat sporten beter is dan gamen.' Wat is een slimme inhoudelijke reactie?",
           options: [
             "'Klopt helemaal.'",
-            "'Waar komt dat vandaan? Weet je een onderzoek dat dat laat zien?'",
+            "'Waar komt dat vandaan? Weet je een onderzoek dat dat laat show?'",
             "'Nee, jij bent fout.'",
             "Je telefoon pakken",
           ],
