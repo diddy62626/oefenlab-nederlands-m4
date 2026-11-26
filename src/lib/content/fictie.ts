@@ -10,7 +10,7 @@ export const fictie: Module = {
   examInfo: [
     "Onderdeel van SE612: Kijk- en luistertoets (Cito, in Woots) – 25% van je SE-cijfer.",
     "Je ziet een kort fictiefragment en beantwoordt daarna één of meer vragen.",
-    "Vaag gevraagde zaken: wie vertelt het verhaal, waarom doet iemand iets, en wat voor sfeer hangt er?",
+    "Vaak gevraagde zaken: wie vertelt het verhaal, waarom doet iemand iets, en wat voor sfeer hangt er?",
     "Vertrouw op de tekst: elk antwoord moet steunen op een plekje in het fragment.",
   ],
   theory: [
@@ -81,12 +81,12 @@ export const fictie: Module = {
           ],
           correctIndex: 0,
           explanation:
-            "Alinea 2 legt het motief uit: de armband van oma zat in het kluisje en niemand geloofde de hoofdpersoon, dus ging het zelf halen.",
+            "Alinea 2 legt het motief uit: de armband van oma zat in het kluisje en niemand geloofde de hoofdpersoon, dus ging die het zelf halen.",
         },
         {
           id: "fi-t1-q3",
           type: "mcq",
-          prompt: "'Mijn hart sloeg als een trommel.' Welke stijlmiddel is dit?",
+          prompt: "'Mijn hart sloeg als een trommel.' Welk stijlmiddel is dit?",
           options: ["Metafoor", "Vergelijking", "Personificatie", "Herhaling"],
           correctIndex: 1,
           explanation:
@@ -144,7 +144,7 @@ export const fictie: Module = {
       paragraphs: [
         "De stationshal was een zee van koffers en jassen. Op het perron stond Veer met haar rug tegen een kolom gedrukt, en in haar hoofd draaide maar één zin: als ik nu niet zwijg, dan barst alles open.",
         "Naast haar stond haar opa, handen op zijn rug, naar de vertrekborden starend. Hij dacht aan dezelfde winter veertig jaar eerder, toen hij zelf op dit perron iemand had laten gaan zonder iets te zeggen. Die stilte was hij nooit helemaal kwijtgeraakt.",
-        "'Je treinstel wordt vandaag', zei hij uiteindelijk, met een stem die veel zachter klonk dan hij had gewild. Veer knikte en keek naar haar schoenen. Zij wist niet dat haar opa op dat moment precies hetzelfde voelde als zij: dat woorden ontbraken op het verkeerde moment. Boven hen hingen de borden te knikkeren, en de aankondiging van de trein scalpeerde de stilte.",
+        "'Je treinstel wordt vandaag', zei hij uiteindelijk, met een stem die veel zachter klonk dan hij had gewild. Veer knikte en keek naar haar schoenen. Zij wist niet dat haar opa op dat moment precies hetzelfde voelde als zij: dat woorden ontbraken op het verkeerde moment. Boven hen hingen de borden te knikkeren, en de aankondiging van de trein scaleerde de stilte.",
       ],
       questions: [
         {
@@ -164,7 +164,7 @@ export const fictie: Module = {
         {
           id: "fi-t2-q2",
           type: "mcq",
-          prompt: "'De stationshal was een zee van koffers en jassen.' Welke stijlmiddel is dit?",
+          prompt: "'De stationshal was een zee van koffers en jassen.' Welk stijlmiddel is dit?",
           options: ["Vergelijking", "Metafoor", "Personificatie", "Ironie"],
           correctIndex: 1,
           explanation:
@@ -190,7 +190,7 @@ export const fictie: Module = {
           prompt: "Wat leer je over opa? Hoe noem je zo'n personage?",
           options: [
             "Plat personage: hij heeft maar één kenmerk, hij is streng",
-            "Rond personage: hij is gereserveerd, maar van binnen voll van gevoel en oude spijt",
+            "Rond personage: hij is gereserveerd, maar van binnen vol van gevoel en oude spijt",
             "Plat personage: hij haat treinen",
             "Rond personage, want hij is oud",
           ],
@@ -284,7 +284,7 @@ export const fictie: Module = {
           options: [
             "Er is geen verschil",
             "Bij een vergelijking staat 'als' of 'zoals'; bij een metafoor wordt iets direct iets anders genoemd",
-            "Een metafoor is altijd grappig, een vergelijking altijd sérieus",
+            "Een metafoor is altijd grappig, een vergelijking altijd serieus",
             "Een vergelijking staat nooit in fictie",
           ],
           correctIndex: 1,
@@ -308,7 +308,7 @@ export const fictie: Module = {
         {
           id: "fi-s1-q6",
           type: "mcq",
-          prompt: "'De wind fluisterde door de bomen.' Welke stijlmiddel is dit?",
+          prompt: "'De wind fluisterde door de bomen.' Welk stijlmiddel is dit?",
           options: ["Vergelijking", "Metafoor", "Personificatie", "Feit"],
           correctIndex: 2,
           explanation:
