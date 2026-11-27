@@ -40,23 +40,23 @@ export function HomeView({ onOpenModule, onOpenReview, onOpenMix }: Props) {
   return (
     <div className="space-y-6">
       {/* Hero */}
-      <section className="rounded-2xl bg-primary text-primary-foreground p-6 sm:p-8">
+      <section className="rounded-2xl bg-primary text-primary-foreground p-6 sm:p-8 animate-fade-up">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <p className="text-sm opacity-80 flex items-center gap-1.5">
-              <Cap className="size-4" aria-hidden /> Nederlands MAVO 4 · Periode 2 · Schoolexamens SE612 + SE613
+              <Cap className="size-4 animate-floaty" aria-hidden /> Nederlands MAVO 4 · Periode 2 · Schoolexamens SE612 + SE613
             </p>
             <h1 className="text-2xl sm:text-3xl font-extrabold mt-1">Oefenlab Nederlands</h1>
-            <p className="text-sm sm:text-base opacity-90 mt-1 max-w-xl">
+            <p className="text-sm sm:text-base opacity-90 mt-1 max-w-xl animate-fade-in">
               Oefenen zoals je brein het beste onthoudt: actief ophalen, meteen feedback en herhaling op de
               juiste momenten.
             </p>
           </div>
           <div className="flex sm:flex-col gap-2 sm:text-right">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-foreground/15 px-3 py-1 text-sm font-semibold self-start">
-              <Flame className="size-4" aria-hidden /> {streakDays} dag{streakDays === 1 ? "" : "en"} streak
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-foreground/15 px-3 py-1 text-sm font-semibold self-start animate-pop stagger-2">
+              <Flame className="size-4 animate-floaty" aria-hidden /> {streakDays} dag{streakDays === 1 ? "" : "en"} streak
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-foreground/15 px-3 py-1 text-sm font-semibold self-start">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-foreground/15 px-3 py-1 text-sm font-semibold self-start animate-pop stagger-3">
               <Zap className="size-4" aria-hidden /> {xp} XP · niveau {level}
             </span>
           </div>
@@ -71,7 +71,7 @@ export function HomeView({ onOpenModule, onOpenReview, onOpenMix }: Props) {
 
       {/* Snelle acties */}
       <section className="grid gap-3 sm:grid-cols-2">
-        <Card className={dueCount > 0 ? "border-primary" : ""}>
+        <Card className={`card-interactive animate-fade-up stagger-1 ${dueCount > 0 ? "border-primary" : ""}`}>
           <CardContent className="p-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <span className="rounded-xl bg-primary/10 p-2.5">
@@ -89,7 +89,7 @@ export function HomeView({ onOpenModule, onOpenReview, onOpenMix }: Props) {
             </Button>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="card-interactive animate-fade-up stagger-2">
           <CardContent className="p-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <span className="rounded-xl bg-primary/10 p-2.5">
@@ -109,7 +109,7 @@ export function HomeView({ onOpenModule, onOpenReview, onOpenMix }: Props) {
       <section>
         <h2 className="text-lg font-bold mb-3">Jouw twee schoolexamens (samen 50% van je SE-cijfer)</h2>
         <div className="grid gap-3 md:grid-cols-2">
-          <Card>
+          <Card className="card-interactive animate-fade-up stagger-2">
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center justify-between text-base">
                 SE612 – Kijken & luisteren
@@ -126,7 +126,7 @@ export function HomeView({ onOpenModule, onOpenReview, onOpenMix }: Props) {
               <p>Neem mee: opgeladen Chromebook, oplader, oortjes mét snoer.</p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="card-interactive animate-fade-up stagger-3">
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center justify-between text-base">
                 SE613 – Spreken (discussie)
@@ -149,14 +149,14 @@ export function HomeView({ onOpenModule, onOpenReview, onOpenMix }: Props) {
       <section>
         <h2 className="text-lg font-bold mb-3">Kies een module om te oefenen</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {modules.map((mod) => (
-            <ModuleCard key={mod.id} mod={mod} onOpen={() => onOpenModule(mod.id)} cards={cards} />
+          {modules.map((mod, i) => (
+            <ModuleCard key={mod.id} mod={mod} index={i} onOpen={() => onOpenModule(mod.id)} cards={cards} />
           ))}
         </div>
       </section>
 
       {/* Leermethode */}
-      <section>
+      <section className="animate-fade-up stagger-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base">Zo werkt dit oefenlab (en waarom dat werkt)</CardTitle>
@@ -188,10 +188,12 @@ export function HomeView({ onOpenModule, onOpenReview, onOpenMix }: Props) {
 
 function ModuleCard({
   mod,
+  index,
   onOpen,
   cards,
 }: {
   mod: Module;
+  index: number;
   onOpen: () => void;
   cards: Record<string, { box: number; due: number; correct: number; wrong: number; seen: number }>;
 }) {
@@ -202,7 +204,7 @@ function ModuleCard({
   const nFlash = mod.flashcards?.length ?? 0;
 
   return (
-    <Card className={`flex flex-col ${a.border}`}>
+    <Card className={`flex flex-col card-interactive animate-fade-up stagger-${Math.min(index + 1, 6)} ${a.border}`}>
       <CardContent className="p-5 flex flex-col gap-3 grow">
         <div className="flex items-start gap-3">
           <span className={`rounded-xl p-2.5 ${a.soft}`}>
