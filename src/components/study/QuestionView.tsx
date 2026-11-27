@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { icons, shuffleSeeded } from "./accents";
@@ -60,19 +60,27 @@ function McqView({
         </div>
       )}
       <div className="grid gap-2" role="radiogroup" aria-label={q.prompt}>
-        {order.map((origIdx) => {
+        {order.map((origIdx, optIdx) => {
           const isCorrect = origIdx === q.correctIndex;
           const isPicked = picked === origIdx;
           let cls =
-            "justify-start text-left h-auto py-3 px-4 border rounded-xl transition-colors min-h-11 whitespace-normal";
+            "justify-start text-left h-auto py-3 px-4 border rounded-xl transition-all min-h-11 whitespace-normal animate-fade-up";
+          let style: CSSProperties | undefined = { animationDelay: `${optIdx * 70}ms` };
+          let extra = "";
           if (revealed) {
-            if (isCorrect) cls += " border-emerald-500 bg-emerald-50 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200";
-            else if (isPicked) cls += " border-rose-500 bg-rose-50 text-rose-900 dark:bg-rose-950 dark:text-rose-200";
-            else cls += " opacity-60";
+            style = undefined;
+            if (isCorrect) {
+              cls += " border-emerald-500 bg-emerald-50 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200";
+              extra = " animate-pop";
+            } else if (isPicked) {
+              cls += " border-rose-500 bg-rose-50 text-rose-900 dark:bg-rose-950 dark:text-rose-200 animate-shake";
+            } else {
+              cls += " opacity-60";
+            }
           } else if (isPicked) {
-            cls += " border-primary bg-primary/10";
+            cls += " border-primary bg-primary/10 scale-[1.01]";
           } else {
-            cls += " hover:bg-muted/60 border-border";
+            cls += " hover:bg-muted/60 hover:-translate-y-0.5 border-border";
           }
           return (
             <Button
@@ -80,7 +88,8 @@ function McqView({
               variant="outline"
               role="radio"
               aria-checked={isPicked}
-              className={cls}
+              className={cls + extra}
+              style={style}
               onClick={() => choose(origIdx)}
               disabled={revealed}
             >
@@ -132,7 +141,7 @@ function FillView({
             checked
               ? ok
                 ? "border-emerald-500"
-                : "border-rose-500"
+                : "border-rose-500 animate-shake"
               : ""
           }
         />
@@ -143,7 +152,7 @@ function FillView({
         )}
       </div>
       {checked && !ok && (
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground animate-fade-up">
           Goed was: <span className="font-semibold">{q.accepted[0]}</span>
         </p>
       )}
@@ -189,13 +198,14 @@ function OrderView({
               key={i}
               onClick={() => toggleItem(i)}
               disabled={revealed}
-              className={`w-full text-left rounded-lg border px-3 py-2 text-sm transition-colors ${
+              className={`w-full text-left rounded-lg border px-3 py-2 text-sm transition-all hover:bg-primary/10 ${
                 revealed
                   ? ok
-                    ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950"
+                    ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950 animate-pop"
                     : "border-rose-500 bg-rose-50 dark:bg-rose-950"
-                  : "border-primary/40 bg-primary/5 hover:bg-primary/10"
+                  : "border-primary/40 bg-primary/5 animate-fade-up"
               }`}
+              style={{ animationDelay: `${pos * 60}ms` }}
             >
               <span className="font-bold mr-2">{pos + 1}.</span>
               {q.items[i]}
@@ -209,11 +219,12 @@ function OrderView({
         <div className="space-y-2">
           {order
             .filter((i) => !sequence.includes(i))
-            .map((i) => (
+            .map((i, pos) => (
               <Button
                 key={i}
                 variant="outline"
-                className="w-full justify-start text-left h-auto py-3 whitespace-normal min-h-11"
+                className="w-full justify-start text-left h-auto py-3 whitespace-normal min-h-11 animate-fade-up hover:-translate-y-0.5"
+                style={{ animationDelay: `${pos * 60}ms` }}
                 onClick={() => toggleItem(i)}
                 disabled={revealed}
               >
@@ -280,18 +291,19 @@ function SortInner({
     <div className="space-y-3">
       <p className="text-base font-medium leading-relaxed">{q.prompt}</p>
       <div className="space-y-2">
-        {items.map((it) => {
+        {items.map((it, itemIdx) => {
           const correct = picks[it.i] === it.bucket;
           return (
             <div
               key={it.i}
-              className={`rounded-xl border p-3 transition-colors ${
+              className={`rounded-xl border p-3 transition-all animate-fade-up ${
                 revealed
                   ? correct
-                    ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950"
-                    : "border-rose-500 bg-rose-50 dark:bg-rose-950"
+                    ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950 animate-pop"
+                    : "border-rose-500 bg-rose-50 dark:bg-rose-950 animate-shake"
                   : "border-border"
               }`}
+              style={{ animationDelay: `${itemIdx * 70}ms` }}
             >
               <p className="text-sm mb-2">{it.text}</p>
               <div className="flex flex-wrap gap-2">
@@ -327,7 +339,7 @@ function SortInner({
         </Button>
       )}
       {revealed && (
-        <p className={`text-sm font-medium ${ok ? "text-emerald-700 dark:text-emerald-400" : "text-rose-700 dark:text-rose-400"}`}>
+        <p className={`text-sm font-medium animate-fade-up ${ok ? "text-emerald-700 dark:text-emerald-400" : "text-rose-700 dark:text-rose-400"}`}>
           {correctCount} van de {q.items.length} goed.
         </p>
       )}
