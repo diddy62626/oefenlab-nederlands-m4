@@ -36,19 +36,21 @@ export function SessionView({ kind, onExit, onOpenMix }: Props) {
 
   if (kind === "review" && questions.length === 0) {
     return (
-      <Card>
+      <Card className="animate-scale-in">
         <CardContent className="p-8 text-center space-y-4">
-          <Refresh className="size-10 mx-auto text-primary" aria-hidden />
+          <Refresh className="size-10 mx-auto text-primary animate-floaty" aria-hidden />
           <p className="text-lg font-semibold">Niks te herhalen op dit moment</p>
           <p className="text-sm text-muted-foreground max-w-md mx-auto">
             Je hebt alles wat je tot nu toe deed al herhaald – goed gedaan! Nieuwe herhalingsvragen verschijnen
             automatisch (na 10 minuten, 1 dag, 3 dagen, 7 dagen, 14 dagen of 30 dagen). Doe intussen een mix-oefening
             om nieuwe vragen te leren.
           </p>
-          <Button onClick={onOpenMix}>
-            <Shuffle className="size-4 mr-1" aria-hidden /> Start mix-oefening
-          </Button>
-          <div>
+          <div className="animate-fade-up stagger-3">
+            <Button onClick={onOpenMix}>
+              <Shuffle className="size-4 mr-1" aria-hidden /> Start mix-oefening
+            </Button>
+          </div>
+          <div className="animate-fade-up stagger-4">
             <Button variant="ghost" onClick={onExit}>
               Terug naar overzicht
             </Button>

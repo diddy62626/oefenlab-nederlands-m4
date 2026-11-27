@@ -50,14 +50,17 @@ export function ListeningPanel({ text }: { text: string }) {
   }
 
   return (
-    <Card>
+    <Card className="animate-fade-up">
       <CardContent className="p-4 space-y-3">
         <div className="flex items-center gap-2">
-          <Volume className="size-5 text-primary" aria-hidden />
+          <Volume
+            className={`size-5 text-primary ${speaking ? "animate-pulse-ring" : "animate-floaty"}`}
+            aria-hidden
+          />
           <h3 className="font-semibold">Luisterfragment</h3>
         </div>
         {supported ? (
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 animate-fade-in stagger-2">
             <Button onClick={speak} disabled={speaking} size="sm">
               {speaking ? "Speelt af..." : "Afspelen"}
             </Button>
@@ -89,12 +92,12 @@ export function ListeningPanel({ text }: { text: string }) {
             {showText ? "Tekst verbergen" : "Tekst tonen"}
           </Button>
           {showText && (
-            <p className="text-sm leading-relaxed bg-muted rounded-lg p-3 mt-1">
+            <p className="text-sm leading-relaxed bg-muted rounded-lg p-3 mt-1 animate-fade-up">
               <em>{text}</em>
             </p>
           )}
           {!showText && (
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-muted-foreground mt-1 animate-fade-in">
               Tip: luister eerst zonder tekst – dat is precies wat er op de KLT van je verwacht wordt.
             </p>
           )}

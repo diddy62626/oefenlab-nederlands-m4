@@ -84,26 +84,35 @@ export function FlashcardTrainer({ cards, title }: { cards: Flashcard[]; title: 
         </p>
       </div>
       <Progress value={(queueIdx / queue.length) * 100} aria-label="Voortgang flashcards" />
-      <Card
-        className="min-h-48 cursor-pointer select-none transition-shadow hover:shadow-md"
+      <div
+        key={card.id}
+        className="flip-scene animate-fade-in cursor-pointer select-none"
+        role="button"
+        tabIndex={0}
+        aria-label={flipped ? "Kaart omklappen naar de voorkant" : "Kaart omklappen naar het antwoord"}
         onClick={() => setFlipped((f) => !f)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setFlipped((f) => !f);
+          }
+        }}
       >
-        <CardContent className="p-6 sm:p-8 flex flex-col items-center justify-center text-center min-h-48 gap-3">
-          {!flipped ? (
-            <>
-              <p className="text-xl sm:text-2xl font-bold">{card.front}</p>
-              <p className="text-xs text-muted-foreground">Tik op de kaart om het antwoord te zien</p>
-            </>
-          ) : (
-            <>
-              <p className="text-lg">{card.back}</p>
-              {card.example && <p className="text-sm text-muted-foreground italic">Bijv. {card.example}</p>}
-            </>
-          )}
-        </CardContent>
-      </Card>
+        <div className={`flip-card min-h-48 ${flipped ? "is-flipped" : ""}`}>
+          {/* voorkant */}
+          <div className="flip-face min-h-48 rounded-xl border bg-card text-card-foreground shadow-sm p-6 sm:p-8 flex flex-col items-center justify-center text-center gap-3">
+            <p className="text-xl sm:text-2xl font-bold">{card.front}</p>
+            <p className="text-xs text-muted-foreground">Tik op de kaart om het antwoord te zien</p>
+          </div>
+          {/* achterkant */}
+          <div className="flip-face flip-back min-h-48 rounded-xl border bg-card text-card-foreground shadow-sm p-6 sm:p-8 flex flex-col items-center justify-center text-center gap-3">
+            <p className="text-lg">{card.back}</p>
+            {card.example && <p className="text-sm text-muted-foreground italic">Bijv. {card.example}</p>}
+          </div>
+        </div>
+      </div>
       {flipped && (
-        <div className="flex flex-wrap gap-2 justify-center">
+        <div className="flex flex-wrap gap-2 justify-center animate-fade-up">
           <Button variant="outline" onClick={() => answer(false)}>
             Nog lastig
           </Button>
