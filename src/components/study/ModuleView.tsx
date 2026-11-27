@@ -52,9 +52,9 @@ export function ModuleView({ mod, onExit, onStartExercise }: Props) {
 
   return (
     <div className="space-y-5">
-      <section className={`rounded-2xl ${a.soft} p-5 sm:p-6`}>
+      <section className={`rounded-2xl ${a.soft} p-5 sm:p-6 animate-fade-up`}>
         <div className="flex items-start gap-3">
-          <span className="rounded-xl bg-background/60 p-2.5">
+          <span className="rounded-xl bg-background/60 p-2.5 animate-scale-in">
             <ModuleIcon mod={mod} className="size-6" />
           </span>
           <div className="grow">
@@ -65,7 +65,7 @@ export function ModuleView({ mod, onExit, onStartExercise }: Props) {
             Terug
           </Button>
         </div>
-        <ul className="mt-3 space-y-1 text-sm list-disc list-inside opacity-90">
+        <ul className="mt-3 space-y-1 text-sm list-disc list-inside opacity-90 animate-fade-in">
           {mod.examInfo.map((info, i) => (
             <li key={i}>{info}</li>
           ))}
@@ -80,7 +80,7 @@ export function ModuleView({ mod, onExit, onStartExercise }: Props) {
           {mod.flashcards && mod.flashcards.length > 0 && <TabsTrigger value="flash">Flashcards</TabsTrigger>}
         </TabsList>
 
-        <TabsContent value="theorie" className="space-y-4 mt-4">
+        <TabsContent value="theorie" className="space-y-4 mt-4 animate-fade-up">
           {mod.deadlines && mod.deadlines.length > 0 && (
             <Card>
               <CardHeader className="pb-2">
@@ -91,7 +91,11 @@ export function ModuleView({ mod, onExit, onStartExercise }: Props) {
               <CardContent>
                 <ul className="space-y-2 text-sm">
                   {mod.deadlines.map((d, i) => (
-                    <li key={i} className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                    <li
+                      key={i}
+                      className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 animate-fade-up"
+                      style={{ animationDelay: `${i * 70}ms` }}
+                    >
                       <span>{d.what}</span>
                       <Badge variant="outline" className="self-start whitespace-nowrap">
                         {d.when}
@@ -104,7 +108,7 @@ export function ModuleView({ mod, onExit, onStartExercise }: Props) {
           )}
 
           {mod.theory.map((block, i) => (
-            <Card key={i}>
+            <Card key={i} className="animate-fade-up" style={{ animationDelay: `${(i + 1) * 80}ms` }}>
               <CardHeader className="pb-2">
                 <CardTitle className="text-base">{block.title}</CardTitle>
               </CardHeader>
@@ -128,11 +132,12 @@ export function ModuleView({ mod, onExit, onStartExercise }: Props) {
           {mod.checklist && mod.checklist.length > 0 && <ChecklistCard mod={mod} />}
         </TabsContent>
 
-        <TabsContent value="oefenen" className="space-y-3 mt-4">
-          {sets.map((s) => {
+        <TabsContent value="oefenen" className="space-y-3 mt-4 animate-fade-up">
+          {sets.map((s, i) => {
             return (
               <SetRow
                 key={s.id}
+                index={i}
                 id={s.id}
                 title={s.title}
                 description={s.description}
@@ -155,9 +160,9 @@ export function ModuleView({ mod, onExit, onStartExercise }: Props) {
         </TabsContent>
 
         {mod.exams && mod.exams.length > 0 && (
-          <TabsContent value="toets" className="space-y-3 mt-4">
+          <TabsContent value="toets" className="space-y-3 mt-4 animate-fade-up">
             {mod.exams.map((ex) => (
-              <Card key={ex.id}>
+              <Card key={ex.id} className="card-interactive">
                 <CardContent className="p-4 flex items-center justify-between gap-3">
                   <div>
                     <p className="font-semibold">{ex.title}</p>
@@ -184,14 +189,14 @@ export function ModuleView({ mod, onExit, onStartExercise }: Props) {
                 </CardContent>
               </Card>
             ))}
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground animate-fade-in">
               In de toetsmodus krijg je pas na inleveren feedback – zo train je je examen-conditie. De timer loopt mee.
             </p>
           </TabsContent>
         )}
 
         {mod.flashcards && mod.flashcards.length > 0 && (
-          <TabsContent value="flash" className="mt-4">
+          <TabsContent value="flash" className="mt-4 animate-fade-up">
             <FlashcardsLazy mod={mod} />
           </TabsContent>
         )}
@@ -207,6 +212,7 @@ export function ModuleView({ mod, onExit, onStartExercise }: Props) {
 }
 
 function SetRow({
+  index,
   id,
   title,
   description,
@@ -214,6 +220,7 @@ function SetRow({
   hasReading,
   onStart,
 }: {
+  index: number;
   id: string;
   title: string;
   description?: string;
@@ -225,7 +232,7 @@ function SetRow({
   const stat = setsStore[id];
   const best = stat?.bestPct ?? 0;
   return (
-    <Card>
+    <Card className={`card-interactive animate-fade-up stagger-${Math.min(index + 1, 6)}`}>
       <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="grow">
           <p className="font-semibold flex items-center gap-2 flex-wrap">
@@ -266,14 +273,15 @@ function ChecklistCard({ mod }: { mod: Module }) {
       </CardHeader>
       <CardContent className="space-y-2">
         <Progress value={(done / items.length) * 100} className="mb-2" aria-label="Checklist voortgang" />
-        {items.map((item) => (
+        {items.map((item, i) => (
           <label
             key={item.id}
-            className="flex items-start gap-3 rounded-lg border p-3 cursor-pointer hover:bg-muted/50 transition-colors"
+            className="flex items-start gap-3 rounded-lg border p-3 cursor-pointer hover:bg-muted/50 hover:border-primary/40 transition-all duration-200 animate-fade-up"
+            style={{ animationDelay: `${i * 60}ms` }}
           >
             <Checkbox checked={!!checklist[item.id]} onCheckedChange={() => toggle(item.id)} className="mt-0.5" />
             <span>
-              <span className={`text-sm font-medium ${checklist[item.id] ? "line-through opacity-60" : ""}`}>
+              <span className={`text-sm font-medium transition-all ${checklist[item.id] ? "line-through opacity-60" : ""}`}>
                 {item.label}
               </span>
               {item.detail && <span className="block text-xs text-muted-foreground mt-0.5">{item.detail}</span>}
@@ -289,7 +297,7 @@ function FlashcardsLazy({ mod }: { mod: Module }) {
   const [started, setStarted] = useState(false);
   if (!started) {
     return (
-      <Card>
+      <Card className="animate-scale-in">
         <CardContent className="p-6 text-center space-y-3">
           <p className="font-semibold">{mod.flashcards?.length ?? 0} begripskaarten</p>
           <p className="text-sm text-muted-foreground">
