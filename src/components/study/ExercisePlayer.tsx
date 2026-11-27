@@ -79,7 +79,7 @@ export function ExercisePlayer({ title, subtitle, questions, mode, setId, minute
     }
   }
 
-  // timer voor toetsmodus (start pas nadat submitExam bestaat)
+  // timer voor toetsmodus
   useEffect(() => {
     if (!isExam || !minutes) return;
     const t = setInterval(() => {
@@ -151,12 +151,12 @@ export function ExercisePlayer({ title, subtitle, questions, mode, setId, minute
       <div className="space-y-4">
         <Card>
           <CardContent className="p-6 text-center space-y-3">
-            <p className="text-5xl font-extrabold">{pct}%</p>
-            <p className="text-muted-foreground">
+            <p className="text-5xl font-extrabold animate-pop">{pct}%</p>
+            <p className="text-muted-foreground animate-fade-in">
               {nCorrect} van de {total} vragen goed
               {isExam && minutes ? ` · tijd gebruikt: ${Math.floor(usedSec / 60)} min ${usedSec % 60} s` : ""}
             </p>
-            <p className="font-medium">{feedback}</p>
+            <p className="font-medium animate-fade-up stagger-2">{feedback}</p>
             <div className="flex flex-wrap gap-2 justify-center pt-2">
               <Button onClick={restart} variant="outline">
                 <Refresh className="size-4 mr-1" aria-hidden /> Opnieuw
@@ -170,7 +170,11 @@ export function ExercisePlayer({ title, subtitle, questions, mode, setId, minute
           {questions.map((q, i) => {
             const wasCorrect = isExam ? examAnswers[i] : results[i];
             return (
-              <Card key={q.id} className={wasCorrect ? "border-emerald-300" : "border-rose-300"}>
+              <Card
+                key={q.id}
+                className={`animate-fade-up ${wasCorrect ? "border-emerald-300" : "border-rose-300"}`}
+                style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
+              >
                 <CardContent className="p-4 space-y-2">
                   <p className="font-medium text-sm">
                     <span className={wasCorrect ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}>
@@ -212,7 +216,13 @@ export function ExercisePlayer({ title, subtitle, questions, mode, setId, minute
           {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
         </div>
         {isExam && secondsLeft !== null && (
-          <span className="flex items-center gap-1 text-sm font-mono font-semibold bg-muted rounded-lg px-3 py-1.5">
+          <span
+            className={`flex items-center gap-1 text-sm font-mono font-semibold rounded-lg px-3 py-1.5 transition-colors ${
+              secondsLeft <= 60
+                ? "text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-950 animate-pulse"
+                : "bg-muted"
+            }`}
+          >
             <Clock className="size-4" aria-hidden />
             {Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, "0")}
           </span>
@@ -227,25 +237,27 @@ export function ExercisePlayer({ title, subtitle, questions, mode, setId, minute
       {audioText && idx === 0 && <ListeningPanel text={audioText} />}
 
       {reading && (
-        <Card>
+        <Card className="animate-fade-up">
           <CardContent className="p-4 space-y-2">
             <h3 className="font-bold">{reading.title}</h3>
             <div className="max-h-72 overflow-y-auto space-y-2 pr-2 text-sm leading-relaxed scroll-smooth">
               {reading.paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
+                <p key={i} className="animate-fade-in" style={{ animationDelay: `${i * 100}ms` }}>
+                  {p}
+                </p>
               ))}
             </div>
           </CardContent>
         </Card>
       )}
 
-      <Card>
+      <Card key={q.id} className="animate-scale-in">
         <CardContent className="p-4 sm:p-6">
           <QuestionView question={q} revealed={revealed[idx]} onAnswer={handleAnswer} />
           {!isExam && revealed[idx] && (
             <div className="mt-4 space-y-3">
               <p
-                className={`rounded-lg p-3 text-sm font-medium ${
+                className={`rounded-lg p-3 text-sm font-medium animate-pop ${
                   results[idx]
                     ? "bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200"
                     : "bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200"
@@ -253,10 +265,12 @@ export function ExercisePlayer({ title, subtitle, questions, mode, setId, minute
               >
                 {results[idx] ? "Goed!" : "Helaas, niet goed."}
               </p>
-              <p className="text-sm text-muted-foreground bg-muted rounded-lg p-3">{q.explanation}</p>
-              <Button onClick={next}>
-                {idx === questions.length - 1 ? "Bekijk je score" : "Volgende vraag"}
-              </Button>
+              <p className="text-sm text-muted-foreground bg-muted rounded-lg p-3 animate-fade-up stagger-2">{q.explanation}</p>
+              <div className="animate-fade-up stagger-3">
+                <Button onClick={next}>
+                  {idx === questions.length - 1 ? "Bekijk je score" : "Volgende vraag"}
+                </Button>
+              </div>
             </div>
           )}
           {isExam && (
